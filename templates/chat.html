@@ -1,0 +1,107 @@
+{% load static %}
+
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+<div class="container">
+
+    <!-- Page header start -->
+    <div class="page-title">
+        <div class="row gutters">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+
+                {% if request.user.is_authenticated %}
+
+                <a href="{% url 'account_logout' %}"><button id="logout">Logout</button></a>
+                <a href="#"><button id="logout">User : {{request.user.username|capfirst}}</button></a>
+
+
+
+                {% else %}
+                <a href="{% url 'account_signup' %}"><button id="logout">Sign Up</button></a>
+                <a href="{% url 'account_login' %}"><button id="logout">Sign In</button></a>
+                {% endif %}
+                <h1 class="title ">🤖 Chat Bot </h1>
+
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Page header end -->
+
+    <!-- Content wrapper start -->
+
+    <div class="content-wrapper">
+
+        <!-- Row start -->
+        <div class="row gutters">
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+                <div class="card m-0">
+
+                    <!-- Row start -->
+                    <div class="row no-gutters">
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
+                            <div class="chat-container">
+                                <ul class="chat-box chatContainerScroll">
+                                    {% if queries %}
+                                    {% for query in queries %}
+                                    <li class="chat-left">
+                                        <div class="chat-avatar">
+                                            <img src="https://www.svgrepo.com/show/295402/user-profile.svg"
+                                                alt="Retail Admin">
+                                            <div class="chat-name">User</div>
+                                        </div>
+                                        <div class="chat-text">{{query.query}}</div>
+                                        <div class="chat-hour"><span class="fa fa-check-circle"></span></div>
+                                    </li>
+                                    <li class="chat-right">
+                                        <div class="chat-hour"><span class="fa fa-check-circle"></span></div>
+                                        <div class="chat-text">{{query.result}}</div>
+                                        <div class="chat-avatar">
+                                            <img src="data:image/png;base64,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"
+                                                alt="Retail Admin">
+                                            <div class="chat-name">Bot</div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <div>
+                                    <h1 class="text1">Your have no chat history!</h1>
+                                </div>
+                                {% endif %}
+                                <div class="form-group mt-3 mb-0">
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <div class="input-group">
+                                            <textarea class="form-control pb-1" rows="4" cols="148"
+                                                placeholder="Type your message here..." name="input"></textarea>&emsp;
+                                            <span class="input-group-addon">
+                                                <button type="submit" id="submit"><i class="fa fa-chevron-circle-right"
+                                                        aria-hidden="true"></i> Sent </button>
+                                                <!-- <button type="submit" id="sub"><i class="fa fa-chevron-circle-right fa-2x" aria-hidden="true"></i></button> -->
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Row end -->
+                </div>
+
+            </div>
+
+        </div>
+        <!-- Row end -->
+
+    </div>
+    <!-- Content wrapper end -->
+
+</div>
